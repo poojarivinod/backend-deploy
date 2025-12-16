@@ -33,10 +33,9 @@ pipeline {
                     withAWS(region: 'us-east-1', credentials: "aws-creds-${environment}") {
                         
                         sh """
-                            // To login in AWS eks
                             aws eks update-kubeconfig --region $REGION --name expense-${environment} 
                             kubectl get nodes
-                            cd helm
+                        //    cd helm
                         //     sed -i 's/IMAGE_VERSION/${params.version}/g' values-${environment}.yaml
                         //     helm upgrade --install $COMPONENT -n $PROJECT -f values-${environment}.yaml .
                          """
