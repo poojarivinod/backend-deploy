@@ -31,13 +31,15 @@ pipeline {
             steps {
                 script{
                     withAWS(region: 'us-east-1', credentials: "aws-creds-${environment}") {
+                        
                         sh """
-                            aws eks update-kubeconfig --region $REGION --name expense-${environment}
+                            // To login in AWS eks
+                            aws eks update-kubeconfig --region $REGION --name expense-${environment} 
                             kubectl get nodes
                             cd helm
-                            sed -i 's/IMAGE_VERSION/${params.version}/g' values-${environment}.yaml
-                            helm upgrade --install $COMPONENT -n $PROJECT -f values-${environment}.yaml .
-                        """
+                        //     sed -i 's/IMAGE_VERSION/${params.version}/g' values-${environment}.yaml
+                        //     helm upgrade --install $COMPONENT -n $PROJECT -f values-${environment}.yaml .
+                         """
                     }
                 }
             }
@@ -87,37 +89,37 @@ pipeline {
                 }
             }
         } */
-        stage('Functional/API Tests') {
-            when{
-                expression { params.deploy_to == 'dev'}
-            }
+        // stage('Functional/API Tests') {
+        //     when{
+        //         expression { params.deploy_to == 'dev'}
+        //     }
             
-            steps {
-                script{
+        //     steps {
+        //         script{
                     
-                        sh """
-                            echo "functional tests will be performed after DEV deployment. Usual;y these are automated selenium test cases written by testing team. If these test cases are failed pipeline also fails"
-                        """
+        //                 sh """
+        //                     echo "functional tests will be performed after DEV deployment. Usual;y these are automated selenium test cases written by testing team. If these test cases are failed pipeline also fails"
+        //                 """
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
-        stage('Integration Tests') {
-            when{
-                expression { params.deploy_to == 'qa'}
-            }
+        // stage('Integration Tests') {
+        //     when{
+        //         expression { params.deploy_to == 'qa'}
+        //     }
             
-            steps {
-                script{
+        //     steps {
+        //         script{
                     
-                        sh """
-                            echo "integrations tests will be performed after QA/UAT deployment. Usually these are automated BDD(Behaviour driven development) test cases in cucumber framework written by testing team. If these test cases are failed pipeline also fails"
-                        """
+        //                 sh """
+        //                     echo "integrations tests will be performed after QA/UAT deployment. Usually these are automated BDD(Behaviour driven development) test cases in cucumber framework written by testing team. If these test cases are failed pipeline also fails"
+        //                 """
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         
     }
     post { 
