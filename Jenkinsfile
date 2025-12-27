@@ -103,7 +103,7 @@ pipeline {
                     
         //         }
         //     }
-        // }
+        // } If deployment is success , functional test are also success, then only raise the pull requst
 
         // stage('Integration Tests') {
         //     when{
